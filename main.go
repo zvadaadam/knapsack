@@ -18,27 +18,27 @@ func main() {
 	switch algorithmName {
 
 	case helper.Bruteforce:
-		fmt.Println("Performing Bruteforce...")
+		//fmt.Println("Performing Bruteforce...")
 		helper.MesureBruteForce()
 
 	case helper.BranchAndBound:
-		fmt.Println("Performing Branch&Bound...")
+		//fmt.Println("Performing Branch&Bound...")
 		helper.MesureBranchBound()
 
 	case helper.Heuristic:
-		fmt.Println("Performing Heuristic...")
+		//fmt.Println("Performing Heuristic...")
 		helper.MesureHeuristic()
 
 	case helper.DynamicPrice:
-		fmt.Println("Performing Dynamic Price...")
+		//fmt.Println("Performing Dynamic Price...")
 		helper.MesureDynamicPrice()
 
 	case helper.DynamicWeight:
-		fmt.Println("Performing Dynamic Weight...")
+		//fmt.Println("Performing Dynamic Weight...")
 		helper.MesureDynamicWeight()
 
 	case helper.FPTAS:
-		fmt.Println("Performing FPTAS...")
+		//fmt.Println("Performing FPTAS...")
 		helper.MesureFPTAS(0.5)
 
 	default:

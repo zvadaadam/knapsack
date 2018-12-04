@@ -28,7 +28,7 @@ func MesureBruteForce() {
 	for {
 		_, capacity, items, err := ReadInstance()
 		if err != nil {
-			fmt.Printf("Duration: %v\n", instanceDuration)
+			fmt.Printf("%v\n", instanceDuration)
 			break
 		}
 
@@ -48,7 +48,7 @@ func MesureBranchBound() {
 	for {
 		_, capacity, items, err := ReadInstance()
 		if err != nil {
-			fmt.Printf("Duration: %v\n", instanceDuration)
+			fmt.Printf("%v\n", instanceDuration)
 			break
 		}
 
@@ -77,7 +77,7 @@ func MesureDynamicPrice()  {
 	for {
 		_, capacity, items, err := ReadInstance()
 		if err != nil {
-			fmt.Printf("Duration: %v\n", instanceDuration)
+			fmt.Printf("%v\n", instanceDuration)
 			break
 		}
 
@@ -94,7 +94,7 @@ func MesureDynamicWeight()  {
 	for {
 		_, capacity, items, err := ReadInstance()
 		if err != nil {
-			fmt.Printf("Duration: %v\n", instanceDuration)
+			fmt.Printf("%v\n", instanceDuration)
 			break
 		}
 
@@ -112,8 +112,7 @@ func MesureHeuristic() {
 	for {
 		_, capacity, items, err := ReadInstance()
 		if err != nil {
-			fmt.Printf("Duration: %v\n", instanceDuration)
-			fmt.Printf("Relative Error: %v\n", sumRelativeError)
+			fmt.Printf("%v,%v\n", instanceDuration, sumRelativeError)
 			break
 		}
 
@@ -136,8 +135,7 @@ func MesureFPTAS(acc float32) {
 	for {
 		_, capacity, items, err := ReadInstance()
 		if err != nil {
-			fmt.Printf("Duration: %v\n", instanceDuration)
-			fmt.Printf("Relative Error: %v\n", sumRelativeError)
+			fmt.Printf("%v,%v\n", instanceDuration, sumRelativeError)
 			break
 		}
 
