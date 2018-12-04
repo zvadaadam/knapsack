@@ -1,3 +1,5 @@
-# Knapsack Algoritms
+# Knapsack Problem
 
-Various algorithms for solving knapsack problem
+Implementation of various algorithms for solving knapsack problem
+
+
