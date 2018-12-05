@@ -1,9 +1,13 @@
 #!/bin/bash
 
 # LOAD OPTIONS
-while getopts a:n:N:m:W:C:k:d:- opt
+while getopts o:a:n:N:m:W:C:k:d:- opt
 do
 	case "$opt" in
+	o)
+	    optimized="$OPTARG" # -a (algorithm name)
+	;;
+
 	a)
 	    algo="$OPTARG" # -a (algorithm name)
 	;;
@@ -41,6 +45,7 @@ shift "$(( OPTIND - 1 ))"
 
 
 echo "__________________________________"
+echo "optimized: $optimized"
 echo "algorithm: $algo"
 echo "num items: $num_items"
 echo "num instances: $num_instances"
@@ -51,21 +56,75 @@ echo "exponent: $exponent"
 echo "type: $type"
 echo "__________________________________"
 
-rm -rf input-*
-rm -rf data.csv
+rm -rf input/input-*
+rm -rf instance_data.csv
 
 
-counter=0
-printf -- "instance,duration\n" >> data.csv
+if [ $optimized = "weight" ]
+then
+    counter=0
+    printf -- "________WEIGHT________"
+    printf -- "weight,duration\n" >> instance_data.csv
+    for i in `seq 1000 1000 30000`; do
+        ./knapgen/knapgen -n $num_items -N $num_instances -m $capacity_weights_ratio -W $i -C $max_price -k $exponent -d $type > "input/input-${i}"
+        #./knapgen/knapgen -n 23 -N 15 -m 0.2 -W $i -C 500 -k 1 -d 0 > "input/input-${i}"
 
-for i in `seq 7000 500 15000`; do
-    ./knapgen/knapgen -n $num_items -N $num_instances -m $capacity_weights_ratio -W $i -C $max_price -k $exponent -d $type > "input/input-${i}"
-    #./knapgen/knapgen -n 23 -N 15 -m 0.2 -W $i -C 500 -k 1 -d 0 > "input/input-${i}"
+        echo "Running Knapsack on input/input-${i}"
 
-    echo "Running Knapsack on input/input-${i}"
+        printf -- "${i},$(./main -algorithm ${algo} < input/input-${i})\n" >> instance_data.csv
 
-    printf -- "${counter},$(./main -algorithm ${algo} < input/input-${i})\n" >> data.csv
+        $(( counter++ ))
 
-    $(( counter++ ))
+    done
+fi
 
-done
+if [ $optimized = "price" ]
+then
+    counter=0
+    printf -- "________PRICE________"
+    printf -- "price,duration\n" >> instance_data.csv
+    for i in `seq 1000 1000 30000`; do
+        ./knapgen/knapgen -n $num_items -N $num_instances -m $capacity_weights_ratio -W $max_weight -C $i -k $exponent -d $type > "input/input-${i}"
+
+        echo "Running Knapsack on input/input-${i}"
+
+        printf -- "${i},$(./main -algorithm ${algo} < input/input-${i})\n" >> instance_data.csv
+
+        $(( counter++ ))
+
+    done
+fi
+
+if [ $optimized = "ratio" ]
+then
+    counter=0
+    printf -- "________RATIO________"
+    printf -- "ratio,duration\n" >> instance_data.csv
+    for i in `seq 0.1 0.1 1`; do
+        ./knapgen/knapgen -n $num_items -N $num_instances -m $i -W $max_weight -C $max_price -k $exponent -d $type > "input/input-${i}"
+
+        echo "Running Knapsack on input/input-${i}"
+
+        printf -- "${i},$(./main -algorithm ${algo} < input/input-${i})\n" >> instance_data.csv
+
+        $(( counter++ ))
+
+    done
+fi
+
+if [ $optimized = "exponent" ]
+then
+    counter=0
+    printf -- "________EXPONENT________"
+    printf -- "exponent,duration\n" >> instance_data.csv
+    for i in `seq 0 0.5 15`; do
+        ./knapgen/knapgen -n $num_items -N $num_instances -m $capacity_weights_ratio -W $max_weight -C $max_price -k $i -d $type > "input/input-${i}"
+
+        echo "Running Knapsack on input/input-${i}"
+
+        printf -- "${i},$(./main -algorithm ${algo} < input/input-${i})\n" >> instance_data.csv
+
+        $(( counter++ ))
+
+    done
+fi

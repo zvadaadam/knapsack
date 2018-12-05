@@ -16,6 +16,11 @@
 input/
 output/
 
+instance_data.csv
+data.csv
+main
+plot.png
+
 knapgen/knapcore.o
 knapgen/knapgen
 knapgen/knapgen.o
