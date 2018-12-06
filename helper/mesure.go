@@ -116,14 +116,23 @@ func MesureHeuristic() {
 			break
 		}
 
-		_, valueBF, _ := algorithms.KnapsackBruteForce(capacity, items, []int{}, 0, 0, 0)
+		precalSumValue := make([]int, len(items) + 1)
+		for i := 0; i < len(items); i++ {
+			precalSumValue[i] = 0
+			for j := i; j < len(items); j++ {
+				precalSumValue[i] += items[j].Value
+			}
+		}
+		precalSumValue[len(items)] = 0
+
+		valueBB, _, _ := algorithms.KnapsackBranchAndBound(capacity, items, 0, 0, 0, []int{}, precalSumValue)
 
 		start := time.Now()
 		valueHeuristic, _ := algorithms.KnapsackHeuristic(capacity, items, algorithms.CoefSorter(items))
 		elapsed := time.Since(start).Seconds()
 		instanceDuration += elapsed
 
-		sumRelativeError += relativeError(valueBF, valueHeuristic)
+		sumRelativeError += relativeError(valueBB, valueHeuristic)
 	}
 }
 

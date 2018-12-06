@@ -30,14 +30,17 @@ def run_instance(num_repeat, optimized, algorithm_name, num_items, num_instances
 
         if i != 0:
             df['duration'] = df['duration'] + new_df['duration']
-            #df['error'] = df['error'] + new_df['error']
+            if algorithm_name == 'heuristic':
+                df['error'] = df['error'] + new_df['error']
         else:
             df = new_df
 
 
 
     df['duration'] = df['duration']/num_repeat
-    #df['error'] = df['error']/NUM_REPEAT
+
+    if algorithm_name == 'heuristic':
+        df['error'] = df['error']/num_repeat
 
 
     print(df.head())
@@ -48,19 +51,32 @@ def run_instance(num_repeat, optimized, algorithm_name, num_items, num_instances
     sns_plot = sns.lineplot(x=optimized, y='duration', data=df).get_figure()
     sns_plot.savefig(new_filename + '.png')
 
+    if algorithm_name == 'heuristic':
+        plt.clf()
+        sns_plot = sns.lineplot(x=optimized, y='error', data=df).get_figure()
+        sns_plot.savefig(new_filename + '_error' + '.png')
+
     # clear plot
     plt.clf()
 
     df.to_csv(new_filename + '.csv', sep=',')
 
 
+
+
+
 if __name__ == "__main__":
 
+    path = ABS_PATH + '/config'
+    configs = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+
     #configs = ['config_bb_weight.cfg', 'config_bb_price.cfg', 'config_bb_ratio.cfg', 'config_bb_exp.cfg']
-    configs = ['config_bb_exp.cfg']
+    #configs = ['config_bb_exp.cfg']
     #configs = ['config_bb_weight.cfg']
 
     for i in range(len(configs)):
+
+        print(ABS_PATH + '/config/' + configs[i])
 
         cfg = configparser.ConfigParser()
         cfg.read(ABS_PATH + '/config/' + configs[i])
