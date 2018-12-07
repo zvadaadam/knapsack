@@ -137,7 +137,7 @@ then
     else
         printf -- "exponent,duration\n" >> instance_data.csv
     fi
-    for i in `seq 0 0.5 15`; do
+    for i in `seq 0 0.1 3.1`; do
         ./knapgen/knapgen -n $num_items -N $num_instances -m $capacity_weights_ratio -W $max_weight -C $max_price -k $i -d $type > "input/input-${i}"
 
         echo "Running Knapsack on input/input-${i}"

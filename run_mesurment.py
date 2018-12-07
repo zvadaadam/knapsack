@@ -68,11 +68,11 @@ def run_instance(num_repeat, optimized, algorithm_name, num_items, num_instances
 if __name__ == "__main__":
 
     path = ABS_PATH + '/config'
-    configs = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    #configs = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
     #configs = ['config_bb_weight.cfg', 'config_bb_price.cfg', 'config_bb_ratio.cfg', 'config_bb_exp.cfg']
-    #configs = ['config_bb_exp.cfg']
-    #configs = ['config_bb_weight.cfg']
+    configs = ['config_bb_exp.cfg', 'config_dynamic_price_exp.cfg', 'config_dynamic_weight_exp.cfg', 'config_heuristic_exp.cfg']
+    #configs = ['config_dynamic_price_price.cfg']
 
     for i in range(len(configs)):
 
