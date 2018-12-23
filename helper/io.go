@@ -13,6 +13,13 @@ func ReadInstance() (int, int, []algorithms.Item, error) {
 		items []algorithms.Item
 	)
 
+	//inputFile, err := os.Open("/Users/adamzvada/Desktop/inst/knap_10.inst.dat")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//defer inputFile.Close()
+
+	//if _, err := fmt.Fscan(inputFile, &id, &numItems, &capacity); err != nil {
 	if _, err := fmt.Scan(&id, &numItems, &capacity); err != nil {
 		return id ,0, nil, err
 	}
@@ -24,6 +31,7 @@ func ReadInstance() (int, int, []algorithms.Item, error) {
 			weight int
 			value int
 		)
+		//if _, err := fmt.Fscan(inputFile, &weight, &value); err != nil {
 		if _, err := fmt.Scan(&weight, &value); err != nil {
 			return id, 0, nil, err
 		}

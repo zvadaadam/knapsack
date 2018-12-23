@@ -40,6 +40,9 @@ func main() {
 	case helper.FPTAS:
 		//fmt.Println("Performing FPTAS...")
 		helper.MesureFPTAS(0.5)
+	case helper.EVOLUTION:
+		fmt.Println("Performing Evolution...")
+		helper.MesureGenetic(1000, 200, 10)
 
 	default:
 		fmt.Println("Not supported algorithm name...")

@@ -15,6 +15,7 @@ const (
 	DynamicWeight AlgorithmName = "dynamic_weight"
 	FPTAS AlgorithmName = "fptas"
 	Heuristic AlgorithmName = "heuristic"
+	EVOLUTION AlgorithmName = "genetic"
 )
 
 func relativeError(optimal int, apx int) float64 {
@@ -201,6 +202,41 @@ func MesureFPTASAcc() {
 		}
 
 	}
+}
+
+func MesureGenetic(numGenerations int, initPopulationSize int, tournamentSize int) {
+
+
+	var instanceDuration float64 = 0
+	var sumRelativeError float64 = 0
+
+	for {
+		_, capacity, items, err := ReadInstance()
+		if err != nil {
+			fmt.Printf("%v,%v\n", instanceDuration, sumRelativeError)
+			break
+		}
+
+		precalSumValue := make([]int, len(items) + 1)
+		for i := 0; i < len(items); i++ {
+			precalSumValue[i] = 0
+			for j := i; j < len(items); j++ {
+				precalSumValue[i] += items[j].Value
+			}
+		}
+		precalSumValue[len(items)] = 0
+		_ ,value, _ := algorithms.KnapsackBruteForce(capacity, items, []int{}, 0, 0, 0)
+		//valueBB, _, _ := algorithms.KnapsackBranchAndBound(capacity, items, 0, 0, 0, []int{}, precalSumValue)
+		fmt.Printf("Global Max: %v\n", value)
+
+		start := time.Now()
+		valueHeuristic, _ := algorithms.Evolution(capacity, items, numGenerations, initPopulationSize, tournamentSize, value)
+		elapsed := time.Since(start).Seconds()
+		instanceDuration += elapsed
+
+		sumRelativeError += relativeError(value, valueHeuristic)
+	}
+
 }
 
 
